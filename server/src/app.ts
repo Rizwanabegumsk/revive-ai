@@ -28,8 +28,8 @@ app.use(
 // Express JSON parsing middleware
 app.use(express.json());
 
-// Health Check Endpoint
-app.get('/api/health', (_req: Request, res: Response) => {
+// Root & Health Check Endpoints for Render Health Check
+app.get(['/', '/health', '/api/health'], (_req: Request, res: Response) => {
   res.json({
     success: true,
     service: 'REVIVE AI API',
