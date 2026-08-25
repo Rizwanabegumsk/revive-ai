@@ -63,7 +63,7 @@ export const RecoveryChart: React.FC<RecoveryChartProps> = ({ data }) => {
         <div className="section-title-group">
           <h2 className="section-title">Revenue Recovery Trend</h2>
           <p className="section-description">
-            Daily comparison of recovered payment volume against failed revenue at risk from live backend API
+            Daily comparison of recovered payment volume against failed revenue at risk across active payment channels
           </p>
         </div>
 
@@ -135,9 +135,7 @@ export const RecoveryChart: React.FC<RecoveryChartProps> = ({ data }) => {
                 strokeWidth={2}
                 fillOpacity={1}
                 fill="url(#colorRecovered)"
-                isAnimationActive={true}
-                animationDuration={1100}
-                animationEasing="ease-out"
+                isAnimationActive={false}
               />
             )}
 
@@ -150,9 +148,7 @@ export const RecoveryChart: React.FC<RecoveryChartProps> = ({ data }) => {
                 strokeWidth={2}
                 fillOpacity={1}
                 fill="url(#colorAtRisk)"
-                isAnimationActive={true}
-                animationDuration={1100}
-                animationEasing="ease-out"
+                isAnimationActive={false}
               />
             )}
           </AreaChart>

@@ -91,8 +91,8 @@ export const AIDecisionsPage: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {DECISION_LOGS.map((dec, idx) => (
-                <tr key={dec.id} className="timeline-item-animated" style={{ animationDelay: `${idx * 80}ms` }}>
+              {DECISION_LOGS.map((dec) => (
+                <tr key={dec.id}>
                   <td className="text-mono text-strong" style={{ fontSize: '13px' }}>
                     {dec.id}
                   </td>

@@ -69,7 +69,6 @@ export const RecoveryPage: React.FC = () => {
         </div>
       </div>
 
-
       {/* Tabs */}
       <div className="tabs-container">
         <button
@@ -161,7 +160,6 @@ export const RecoveryPage: React.FC = () => {
                 </tr>
               ))}
             </tbody>
-
           </table>
         </div>
       </div>

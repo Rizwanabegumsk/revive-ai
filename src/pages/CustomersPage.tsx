@@ -119,8 +119,8 @@ export const CustomersPage: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredCustomers.map((cust, idx) => (
-                  <tr key={cust.id} className="timeline-item-animated" style={{ animationDelay: `${idx * 50}ms` }}>
+                {filteredCustomers.map((cust) => (
+                  <tr key={cust.id}>
                     <td className="text-mono text-strong" style={{ fontSize: '13px' }}>
                       {cust.id}
                     </td>

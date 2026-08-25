@@ -325,7 +325,7 @@ export const TransactionsPage: React.FC = () => {
         {loading ? (
           <div style={{ padding: '4rem', textAlign: 'center', color: 'var(--color-text-secondary)' }}>
             <Loader2 className="animate-spin" size={32} style={{ margin: '0 auto 1rem', color: 'var(--color-primary)' }} />
-            <p>Loading transactions from Revive AI Engine...</p>
+            <p>Loading transactions...</p>
           </div>
         ) : filteredTransactions.length === 0 ? (
           /* Empty State */

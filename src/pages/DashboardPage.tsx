@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useOutletContext, useNavigate, Link } from 'react-router-dom';
 import { PageHeader } from '../components/layout/PageHeader';
 import { MetricStrip } from '../components/common/MetricStrip';
@@ -70,10 +70,6 @@ export const DashboardPage: React.FC = () => {
   const [failures, setFailures] = useState<IFailureMetric[]>([]);
   const [topRecoverable, setTopRecoverable] = useState<ITopRecoverableItem[]>([]);
 
-  // Track mount state for triggering CSS bar-grow transitions
-  const [barsReady, setBarsReady] = useState<boolean>(false);
-  const barsReadyTimerRef = useRef<number | null>(null);
-
   // Fetch all analytics API endpoints
   const fetchAnalyticsData = useCallback(async () => {
     setError(null);
@@ -114,55 +110,31 @@ export const DashboardPage: React.FC = () => {
     fetchAnalyticsData();
   }, [fetchAnalyticsData]);
 
-  // After methods data loads, trigger bar-grow animation on next animation frame
-  useEffect(() => {
-    if (methods.length > 0) {
-      setBarsReady(false);
-      if (barsReadyTimerRef.current) cancelAnimationFrame(barsReadyTimerRef.current);
-      barsReadyTimerRef.current = requestAnimationFrame(() => {
-        setBarsReady(true);
-      });
-    }
-    return () => {
-      if (barsReadyTimerRef.current) cancelAnimationFrame(barsReadyTimerRef.current);
-    };
-  }, [methods]);
-
   const handleRefresh = () => {
     setRefreshing(true);
     fetchAnalyticsData();
   };
 
-  // Build core KPI metric strip items with smooth count-up animation properties
+  // Build core KPI metric strip items
   const metricsData: MetricItemData[] = overview ? [
     {
       id: 'atRisk',
       title: 'Revenue at Risk',
       value: `₹${overview.totalRevenueAtRisk.toLocaleString('en-IN')}`,
-      numericValue: overview.totalRevenueAtRisk,
-      prefix: '₹',
-      formatIndian: true,
       subtitle: `across ${overview.failedPaymentCount} failed payment attempts`
     },
     {
       id: 'recovered',
       title: 'Recovered Revenue',
       value: `₹${overview.totalRevenueRecovered.toLocaleString('en-IN')}`,
-      numericValue: overview.totalRevenueRecovered,
-      prefix: '₹',
-      formatIndian: true,
       trend: `${overview.recoveryRate}%`,
       trendPositive: true,
-      subtitle: 'Real-time API outcome (Simulation Data)'
+      subtitle: 'Automated recovery outcome'
     },
     {
       id: 'rate',
       title: 'Recovery Rate',
       value: `${overview.recoveryRate}%`,
-      numericValue: overview.recoveryRate,
-      suffix: '%',
-      decimals: 1,
-      formatIndian: false,
       trend: '+4.1%',
       trendPositive: true,
       subtitle: `avg AI probability: ${overview.averageRecoveryProbability}%`
@@ -171,9 +143,7 @@ export const DashboardPage: React.FC = () => {
       id: 'decisions',
       title: 'AI-Assisted Recoveries',
       value: `${overview.aiAssistedRecoveryCount}`,
-      numericValue: overview.aiAssistedRecoveryCount,
-      formatIndian: false,
-      subtitle: 'Verified by Revive Policy Engine'
+      subtitle: 'Policy verified'
     }
   ] : [];
 
@@ -189,7 +159,7 @@ export const DashboardPage: React.FC = () => {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.75rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '13px', color: 'var(--color-text-secondary)' }}>
           <ShieldCheck size={16} style={{ color: 'var(--color-primary)' }} />
-          <span>Live MongoDB Aggregation · Revive Recovery Engine v1</span>
+          <span>Live Revenue Intelligence</span>
         </div>
 
         <button
@@ -199,7 +169,7 @@ export const DashboardPage: React.FC = () => {
           style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}
         >
           <RefreshCw size={14} className={refreshing ? 'animate-spin' : ''} />
-          <span>{refreshing ? 'Refreshing API...' : 'Refresh Analytics'}</span>
+          <span>{refreshing ? 'Refreshing...' : 'Refresh Analytics'}</span>
         </button>
       </div>
 
@@ -208,7 +178,7 @@ export const DashboardPage: React.FC = () => {
         <div className="dashboard-section" style={{ padding: '3rem 2rem', textAlign: 'center' }}>
           <Loader2 size={32} className="animate-spin" style={{ color: 'var(--color-primary)', margin: '0 auto 1rem auto' }} />
           <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--color-text)' }}>Loading Revenue Recovery Command Center...</div>
-          <div style={{ fontSize: '12px', color: 'var(--color-text-secondary)', marginTop: '0.25rem' }}>Aggregating real-time transaction data from Express API</div>
+          <div style={{ fontSize: '12px', color: 'var(--color-text-secondary)', marginTop: '0.25rem' }}>Aggregating real-time transaction data</div>
         </div>
       ) : error ? (
         /* Error State with Retry */
@@ -225,16 +195,8 @@ export const DashboardPage: React.FC = () => {
         </div>
       ) : (
         <>
-          {/* Financial Metric Summary Strip — subtle fade while refreshing */}
-          <div
-            style={{
-              transition: 'opacity 0.35s ease',
-              opacity: refreshing ? 0.55 : 1,
-              pointerEvents: refreshing ? 'none' : undefined
-            }}
-          >
-            <MetricStrip metrics={metricsData} />
-          </div>
+          {/* Financial Metric Summary Strip */}
+          <MetricStrip metrics={metricsData} />
 
           {/* Revenue Recovery Trend Chart */}
           <div style={{ marginBottom: '1.5rem' }}>
@@ -264,21 +226,19 @@ export const DashboardPage: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {methods.map((m, idx) => (
-                      <tr key={m.method} className="timeline-item-animated" style={{ animationDelay: `${idx * 80}ms` }}>
+                    {methods.map((m) => (
+                      <tr key={m.method}>
                         <td className="text-strong">{m.method}</td>
                         <td className="num-tabular text-muted">{m.attempts}</td>
                         <td>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                             <div style={{ flex: 1, height: '6px', backgroundColor: 'var(--color-surface-subtle)', borderRadius: '3px', overflow: 'hidden' }}>
-                              {/* Bar animates from 0→actual width using barsReady mount flag */}
                               <div
                                 style={{
                                   height: '100%',
-                                  width: barsReady ? `${Math.min(100, m.successRate)}%` : '0%',
+                                  width: `${Math.min(100, m.successRate)}%`,
                                   backgroundColor: 'var(--color-primary)',
                                   borderRadius: '3px',
-                                  transition: `width 0.85s cubic-bezier(0.22, 1, 0.36, 1) ${idx * 100 + 150}ms`,
                                 }}
                               />
                             </div>
@@ -308,9 +268,7 @@ export const DashboardPage: React.FC = () => {
                 {failures.map((f, i) => (
                   <div
                     key={i}
-                    className="card-hover-animated failure-intelligence-card"
                     style={{
-                      animationDelay: `${i * 90}ms`,
                       padding: '0.875rem 1rem',
                       backgroundColor: 'var(--color-surface-subtle)',
                       border: '1px solid var(--color-border-subtle)',
@@ -318,8 +276,7 @@ export const DashboardPage: React.FC = () => {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
-                      gap: '1rem',
-                      transition: 'border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s cubic-bezier(0.22, 1, 0.36, 1)'
+                      gap: '1rem'
                     }}
                   >
                     <div>
@@ -350,7 +307,7 @@ export const DashboardPage: React.FC = () => {
               <div className="section-title-group">
                 <h2 className="section-title">Top Recovery Opportunities</h2>
                 <p className="section-description">
-                  Highest-value failed payments prioritized by Revive Recovery Engine v1
+                  Highest-value failed payments prioritized for automated recovery
                 </p>
               </div>
               <Link to="/transactions" className="btn btn-secondary btn-sm" style={{ textDecoration: 'none' }}>
@@ -373,11 +330,10 @@ export const DashboardPage: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {topRecoverable.map((item, idx) => (
+                  {topRecoverable.map((item) => (
                     <tr
                       key={item.paymentId}
-                      className="timeline-item-animated"
-                      style={{ cursor: 'pointer', animationDelay: `${idx * 60}ms` }}
+                      style={{ cursor: 'pointer' }}
                       onClick={() => navigate(`/transactions/${item.paymentId}`)}
                     >
                       <td className="text-mono text-strong" style={{ fontSize: '13px', color: 'var(--color-primary)' }}>

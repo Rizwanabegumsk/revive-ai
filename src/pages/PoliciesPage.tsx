@@ -23,17 +23,16 @@ export const PoliciesPage: React.FC = () => {
       />
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-        {policies.map((pol, idx) => (
+        {policies.map((pol) => (
           <div
             key={pol.id}
-            className="dashboard-section card-hover-animated"
+            className="dashboard-section"
             style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
               gap: '1.5rem',
               padding: '1.25rem 1.5rem',
-              animationDelay: `${idx * 80}ms`
             }}
           >
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', flex: 1 }}>

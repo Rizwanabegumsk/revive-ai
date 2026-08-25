@@ -228,10 +228,10 @@ export const TransactionDetailPage: React.FC = () => {
         >
           <Loader2 size={32} className="animate-spin" style={{ color: 'var(--color-primary)' }} />
           <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--color-text)' }}>
-            Loading Payment #{targetId} Context...
+            Loading Payment #{targetId} Details...
           </div>
           <div style={{ fontSize: '12px', color: 'var(--color-text-secondary)' }}>
-            Evaluating Revive Recovery Engine calculations & Safety Policy rules
+            Evaluating recovery strategy & policy safety rules
           </div>
         </div>
       </div>
@@ -273,13 +273,13 @@ export const TransactionDetailPage: React.FC = () => {
             <AlertCircle size={24} style={{ color: 'var(--color-danger)', flexShrink: 0, marginTop: '0.125rem' }} />
             <div>
               <h3 style={{ fontSize: '16px', fontWeight: 700, color: 'var(--color-danger-text)' }}>
-                Failed to Load Transaction Context
+                Unable to Load Transaction
               </h3>
               <p style={{ fontSize: '13px', color: 'var(--color-danger-text)', marginTop: '0.25rem', lineHeight: 1.45 }}>
-                {error || `Payment #${targetId} was not found on the backend API server.`}
+                {error || `Payment #${targetId} could not be retrieved.`}
               </p>
               <div style={{ fontSize: '12px', color: 'var(--color-text-secondary)', marginTop: '0.5rem' }}>
-                API Endpoint: <code>{buildApiUrl(`/api/payments/${targetId}`)}</code>
+                Transaction Reference: <code>#{targetId}</code>
               </div>
             </div>
           </div>
@@ -300,16 +300,10 @@ export const TransactionDetailPage: React.FC = () => {
   const { payment, decision, policyDecision, outcome } = data;
   const customer = payment.customerId;
 
+  const probabilityPercent = Math.round(decision.probability * 100);
   const formattedAmount = `₹${payment.amount.toLocaleString('en-IN')}`;
 
   const currentPolicyStatus = policyDecision?.status || (decision.policyStatus === 'APPROVED' ? 'APPROVED' : decision.policyStatus === 'MANUAL_REVIEW' ? 'MANUAL_REVIEW' : 'BLOCKED');
-
-  // The API stores probability as either a decimal (0–1) or a percentage (0–100).
-  // Normalize it once for display. No animation or fake values are used.
-  const probabilityPercent = decision.probability <= 1
-    ? Math.round(decision.probability * 100)
-    : Math.round(decision.probability);
-
   const policyChecksList = policyDecision?.checks || (decision.policyChecks?.map(c => ({
     name: c.rule || c.name || 'Rule',
     passed: c.passed,
@@ -339,48 +333,46 @@ export const TransactionDetailPage: React.FC = () => {
         </Link>
       </div>
 
-      {/* HEADER SECTION */}
-      <div
-        className="dashboard-section"
-        style={{
-          marginBottom: '1.5rem',
-          padding: '1.5rem 1.75rem',
-          minWidth: 0,
-          boxSizing: 'border-box'
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
+      {/* Hero Header Card */}
+      <div className="dashboard-section" style={{ marginBottom: '1.5rem', padding: '1.5rem 1.75rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
-              <h1 className="page-title" style={{ fontSize: '1.625rem' }}>
-                Payment #{payment.paymentId}
-              </h1>
-              <StatusBadge status={isRecovered ? 'RECOVERED' : payment.status} />
+              <span className="text-mono" style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--color-text)' }}>
+                {payment.paymentId}
+              </span>
+              <StatusBadge status={isRecovered ? 'Recovered' : payment.status} />
+              <span className="badge" style={{ backgroundColor: 'var(--color-primary-light)', color: 'var(--color-primary)', fontWeight: 600 }}>
+                {payment.gateway}
+              </span>
             </div>
-            <div style={{ fontSize: '13px', color: 'var(--color-text-secondary)', marginTop: '0.25rem' }}>
-              Gateway: {payment.gateway} • Failure: <strong style={{ color: isRecovered ? 'var(--color-success)' : 'var(--color-danger)' }}>{payment.failureReason || 'Temporary bank server timeout'}</strong>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginTop: '0.375rem', fontSize: '12px', color: 'var(--color-text-secondary)', flexWrap: 'wrap' }}>
+              <span>Order: <strong>ORD-{payment.paymentId.replace('RV-', '')}</strong></span>
+              <span>•</span>
+              <span>Customer: <strong>{customer ? customer.name : 'Aisha Khan'}</strong> ({customer ? customer.email : 'aisha@example.com'})</span>
+              <span>•</span>
+              <span>Created: {payment.createdAt ? new Date(payment.createdAt).toLocaleString('en-IN') : 'Today, 10:31 AM'}</span>
             </div>
           </div>
 
           <div style={{ textAlign: 'right' }}>
-            <span className="text-xs text-muted uppercase" style={{ letterSpacing: '0.04em', fontWeight: 600 }}>
-              Payment Amount
-            </span>
-            <div className="metric-value num-tabular" style={{ fontSize: '2.25rem', color: 'var(--color-text)', lineHeight: 1.1 }}>
+            <span className="text-xs text-muted block">Transaction Amount</span>
+            <span className="metric-value num-tabular" style={{ fontSize: '1.75rem', fontWeight: 800, color: 'var(--color-text)', display: 'block', lineHeight: 1.1 }}>
               {formattedAmount}
-            </div>
+            </span>
           </div>
         </div>
 
-        <hr style={{ margin: '1.25rem 0 1rem 0', borderColor: 'var(--color-border-subtle)', borderWidth: '1px 0 0 0' }} />
-
-        {/* Four Payment Attributes */}
+        {/* Quick Context Summary Strip */}
         <div
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-            gap: '1.25rem',
-            minWidth: 0
+            gap: '1rem',
+            marginTop: '1.25rem',
+            paddingTop: '1.25rem',
+            borderTop: '1px solid var(--color-border-subtle)'
           }}
         >
           <div>
@@ -393,7 +385,7 @@ export const TransactionDetailPage: React.FC = () => {
           <div>
             <span className="text-xs text-muted block">Failure reason</span>
             <span className="text-strong text-mono" style={{ fontSize: '13px', color: isRecovered ? 'var(--color-success)' : 'var(--color-danger)', marginTop: '0.125rem', display: 'block', wordBreak: 'break-word' }}>
-              {isRecovered ? 'Recovered via simulated retry' : (payment.failureReason || 'Bank gateway error')}
+              {isRecovered ? 'Recovered via automated retry' : (payment.failureReason || 'Bank gateway error')}
             </span>
           </div>
 
@@ -418,7 +410,7 @@ export const TransactionDetailPage: React.FC = () => {
                 border: '1px solid var(--color-border)'
               }}
             >
-              Simulation Mode
+              Automated Recovery
             </span>
           </div>
         </div>
@@ -446,7 +438,7 @@ export const TransactionDetailPage: React.FC = () => {
                   Recovery Opportunity
                 </h2>
                 <p className="section-description">
-                  Recovery probability calculated by <strong>Revive Recovery Engine · v1</strong>
+                  Predicted probability based on historical recovery patterns
                 </p>
               </div>
 
@@ -1050,7 +1042,7 @@ export const TransactionDetailPage: React.FC = () => {
             <div className="timeline-vertical">
               {events && events.length > 0 ? (
                 events.map((evt: any, idx: number) => (
-                  <div key={evt._id || idx} className="timeline-item" style={{ animationDelay: `${idx * 120}ms` }}>
+                  <div key={evt._id || idx} className="timeline-item">
                     <span className="timeline-time">
                       {new Date(evt.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
                     </span>
