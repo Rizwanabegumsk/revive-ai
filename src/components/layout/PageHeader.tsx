@@ -1,5 +1,5 @@
 import React from 'react';
-import { Download, Menu } from 'lucide-react';
+import { Menu } from 'lucide-react';
 
 interface PageHeaderProps {
   title: string;
@@ -28,35 +28,11 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
         <p className="page-subtitle">{subtitle}</p>
       </div>
 
-      <div className="page-header-actions">
-        {actions ? (
-          actions
-        ) : (
-          <>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <select className="select-control" defaultValue="30d">
-                <option value="7d">Last 7 Days</option>
-                <option value="30d">Last 30 Days</option>
-                <option value="90d">Last 90 Days</option>
-                <option value="mtd">Month to Date</option>
-              </select>
-
-              <select className="select-control" defaultValue="all">
-                <option value="all">All Gateways</option>
-                <option value="razorpay">Razorpay</option>
-                <option value="phonepe">PhonePe</option>
-                <option value="payu">PayU</option>
-                <option value="cashfree">Cashfree</option>
-              </select>
-            </div>
-
-            <button className="btn btn-secondary">
-              <Download size={14} />
-              <span>Export</span>
-            </button>
-          </>
-        )}
-      </div>
+      {actions && (
+        <div className="page-header-actions">
+          {actions}
+        </div>
+      )}
     </header>
   );
 };

@@ -279,7 +279,7 @@ export const TransactionDetailPage: React.FC = () => {
                 {error || `Payment #${targetId} was not found on the backend API server.`}
               </p>
               <div style={{ fontSize: '12px', color: 'var(--color-text-secondary)', marginTop: '0.5rem' }}>
-                API Endpoint: <code>http://localhost:5000/api/payments/{targetId}</code>
+                API Endpoint: <code>{buildApiUrl(`/api/payments/${targetId}`)}</code>
               </div>
             </div>
           </div>
@@ -300,7 +300,6 @@ export const TransactionDetailPage: React.FC = () => {
   const { payment, decision, policyDecision, outcome } = data;
   const customer = payment.customerId;
 
-  const probabilityPercent = Math.round(decision.probability * 100);
   const formattedAmount = `₹${payment.amount.toLocaleString('en-IN')}`;
 
   const currentPolicyStatus = policyDecision?.status || (decision.policyStatus === 'APPROVED' ? 'APPROVED' : decision.policyStatus === 'MANUAL_REVIEW' ? 'MANUAL_REVIEW' : 'BLOCKED');
@@ -480,7 +479,7 @@ export const TransactionDetailPage: React.FC = () => {
                   Recovery probability
                 </span>
                 <div className="metric-value num-tabular" style={{ fontSize: '3rem', fontWeight: 800, color: 'var(--color-primary)', lineHeight: 1 }}>
-                  {probabilityPercent}%
+                  {animatedProbability}
                 </div>
                 <span className="text-xs text-muted" style={{ marginTop: '0.375rem', display: 'block', fontWeight: 600 }}>
                   {probabilityPercent >= 75 ? 'Strong candidate for recovery' : probabilityPercent >= 50 ? 'Moderate recovery opportunity' : 'Low recovery probability'}
@@ -1043,8 +1042,8 @@ export const TransactionDetailPage: React.FC = () => {
 
             <div className="timeline-vertical">
               {events && events.length > 0 ? (
-                events.map((evt) => (
-                  <div key={evt._id} className="timeline-item">
+                events.map((evt: any, idx: number) => (
+                  <div key={evt._id || idx} className="timeline-item timeline-item-animated" style={{ animationDelay: `${idx * 120}ms` }}>
                     <span className="timeline-time">
                       {new Date(evt.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
                     </span>

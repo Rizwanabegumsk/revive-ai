@@ -236,11 +236,12 @@ export const AIExperimentsPage: React.FC = () => {
             </h2>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1rem' }}>
-              {experiments.map((item) => {
+              {experiments.map((item, idx) => {
                 const isSelected = item.experiment.experimentId === selectedExp?.experiment.experimentId;
                 return (
                   <div
                     key={item.experiment.experimentId}
+                    className="card-hover-animated"
                     onClick={() => setSelectedExpId(item.experiment.experimentId)}
                     style={{
                       padding: '1.25rem',
@@ -248,7 +249,7 @@ export const AIExperimentsPage: React.FC = () => {
                       border: `1px solid ${isSelected ? 'var(--color-primary)' : 'var(--color-border)'}`,
                       backgroundColor: isSelected ? 'var(--color-primary-light)' : 'var(--color-surface)',
                       cursor: 'pointer',
-                      transition: 'all 0.15s ease',
+                      animationDelay: `${idx * 100}ms`,
                       display: 'flex',
                       flexDirection: 'column',
                       gap: '0.75rem'

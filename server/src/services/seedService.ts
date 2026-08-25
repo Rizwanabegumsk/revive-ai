@@ -30,99 +30,45 @@ export const seedDatabaseData = async (clearExisting = true): Promise<{
     await RecoveryExperiment.deleteMany({});
   }
 
-  console.log('👤 Seeding Customers...');
+  console.log('👤 Seeding 30 Customers...');
   const customersData = [
-    {
-      customerId: 'CUST-AISHA-001',
-      name: 'Aisha Khan',
-      email: 'aisha@example.com',
-      totalPayments: 6,
-      successfulPayments: 5,
-      recoveredPayments: 1,
-      preferredMethod: 'UPI' as PaymentMethodEnum
-    },
-    {
-      customerId: 'CUST-MEHTA-002',
-      name: 'Rahul Mehta',
-      email: 'rahul.m88@outlook.com',
-      totalPayments: 12,
-      successfulPayments: 10,
-      recoveredPayments: 1,
-      preferredMethod: 'CARD' as PaymentMethodEnum
-    },
-    {
-      customerId: 'CUST-JOSEPH-003',
-      name: 'Sara Joseph',
-      email: 'sara.j@yahoo.co.in',
-      totalPayments: 8,
-      successfulPayments: 5,
-      recoveredPayments: 1,
-      preferredMethod: 'NETBANKING' as PaymentMethodEnum
-    },
-    {
-      customerId: 'CUST-SHAH-004',
-      name: 'Karan Shah',
-      email: 'karan.shah@rediffmail.com',
-      totalPayments: 15,
-      successfulPayments: 14,
-      recoveredPayments: 2,
-      preferredMethod: 'UPI' as PaymentMethodEnum
-    },
-    {
-      customerId: 'CUST-SHARMA-005',
-      name: 'Vikram Sharma',
-      email: 'vikram.s@techcorp.in',
-      totalPayments: 20,
-      successfulPayments: 19,
-      recoveredPayments: 3,
-      preferredMethod: 'CARD' as PaymentMethodEnum
-    },
-    {
-      customerId: 'CUST-RAO-006',
-      name: 'Ananya Rao',
-      email: 'ananya.rao@gmail.com',
-      totalPayments: 9,
-      successfulPayments: 7,
-      recoveredPayments: 1,
-      preferredMethod: 'UPI' as PaymentMethodEnum
-    },
-    {
-      customerId: 'CUST-NAIR-007',
-      name: 'Priyanka Nair',
-      email: 'priyanka.nair@hotmail.com',
-      totalPayments: 5,
-      successfulPayments: 4,
-      recoveredPayments: 1,
-      preferredMethod: 'UPI' as PaymentMethodEnum
-    },
-    {
-      customerId: 'CUST-PATEL-008',
-      name: 'Devansh Patel',
-      email: 'dev.patel@gmail.com',
-      totalPayments: 11,
-      successfulPayments: 8,
-      recoveredPayments: 0,
-      preferredMethod: 'WALLET' as PaymentMethodEnum
-    },
-    {
-      customerId: 'CUST-VERMA-009',
-      name: 'Neha Verma',
-      email: 'neha.v@designstudio.in',
-      totalPayments: 14,
-      successfulPayments: 13,
-      recoveredPayments: 2,
-      preferredMethod: 'UPI' as PaymentMethodEnum
-    },
-    {
-      customerId: 'CUST-REDDY-010',
-      name: 'Arjun Reddy',
-      email: 'arjun.reddy@gmail.com',
-      totalPayments: 7,
-      successfulPayments: 6,
-      recoveredPayments: 0,
-      preferredMethod: 'CARD' as PaymentMethodEnum
-    }
-  ];
+    { customerId: 'CUST-AISHA-001', name: 'Aisha Khan', email: 'aisha@example.com', preferredMethod: 'UPI' },
+    { customerId: 'CUST-MEHTA-002', name: 'Rahul Mehta', email: 'rahul.m88@outlook.com', preferredMethod: 'CARD' },
+    { customerId: 'CUST-JOSEPH-003', name: 'Sara Joseph', email: 'sara.j@yahoo.co.in', preferredMethod: 'NETBANKING' },
+    { customerId: 'CUST-SHAH-004', name: 'Karan Shah', email: 'karan.shah@rediffmail.com', preferredMethod: 'UPI' },
+    { customerId: 'CUST-SHARMA-005', name: 'Vikram Sharma', email: 'vikram.s@techcorp.in', preferredMethod: 'CARD' },
+    { customerId: 'CUST-RAO-006', name: 'Ananya Rao', email: 'ananya.rao@gmail.com', preferredMethod: 'UPI' },
+    { customerId: 'CUST-NAIR-007', name: 'Priyanka Nair', email: 'priyanka.nair@hotmail.com', preferredMethod: 'UPI' },
+    { customerId: 'CUST-PATEL-008', name: 'Devansh Patel', email: 'devansh.p@gmail.com', preferredMethod: 'NETBANKING' },
+    { customerId: 'CUST-VERMA-009', name: 'Neha Verma', email: 'neha.v@designstudio.in', preferredMethod: 'UPI' },
+    { customerId: 'CUST-REDDY-010', name: 'Arjun Reddy', email: 'arjun.reddy@gmail.com', preferredMethod: 'CARD' },
+    { customerId: 'CUST-GUPTA-011', name: 'Pooja Gupta', email: 'pooja.g@gmail.com', preferredMethod: 'UPI' },
+    { customerId: 'CUST-JOSHI-012', name: 'Rohan Joshi', email: 'rohan.j@outlook.com', preferredMethod: 'CARD' },
+    { customerId: 'CUST-IYER-013', name: 'Siddharth Iyer', email: 'sid.i@gmail.com', preferredMethod: 'NETBANKING' },
+    { customerId: 'CUST-KAPOOR-014', name: 'Tanvi Kapoor', email: 'tanvi.k@gmail.com', preferredMethod: 'WALLET' },
+    { customerId: 'CUST-SEN-015', name: 'Aditya Sen', email: 'aditya.s@techcorp.in', preferredMethod: 'CARD' },
+    { customerId: 'CUST-DUTTA-016', name: 'Ishita Dutta', email: 'ishita.d@yahoo.co.in', preferredMethod: 'UPI' },
+    { customerId: 'CUST-DHAWAN-017', name: 'Varun Dhawan', email: 'varun.d@gmail.com', preferredMethod: 'UPI' },
+    { customerId: 'CUST-BHATT-018', name: 'Alia Bhatt', email: 'alia.b@outlook.com', preferredMethod: 'CARD' },
+    { customerId: 'CUST-KAUR-019', name: 'Simran Kaur', email: 'simran.k@gmail.com', preferredMethod: 'UPI' },
+    { customerId: 'CUST-CHOPRA-020', name: 'Deepak Chopra', email: 'deepak.c@rediffmail.com', preferredMethod: 'NETBANKING' },
+    { customerId: 'CUST-MALHOTRA-021', name: 'Manish Malhotra', email: 'manish.m@gmail.com', preferredMethod: 'CARD' },
+    { customerId: 'CUST-SANON-022', name: 'Kriti Sanon', email: 'kriti.s@gmail.com', preferredMethod: 'UPI' },
+    { customerId: 'CUST-AKHTAR-023', name: 'Zoya Akhtar', email: 'zoya.a@gmail.com', preferredMethod: 'WALLET' },
+    { customerId: 'CUST-BEDI-024', name: 'Kabir Bedi', email: 'kabir.b@techcorp.in', preferredMethod: 'CARD' },
+    { customerId: 'CUST-KAMAT-025', name: 'Nikhil Kamat', email: 'nikhil.k@outlook.com', preferredMethod: 'UPI' },
+    { customerId: 'CUST-DESHMUKH-026', name: 'Riteish Deshmukh', email: 'riteish.d@gmail.com', preferredMethod: 'NETBANKING' },
+    { customerId: 'CUST-ROY-027', name: 'Mouni Roy', email: 'mouni.r@gmail.com', preferredMethod: 'UPI' },
+    { customerId: 'CUST-SHETTY-028', name: 'Shilpa Shetty', email: 'shilpa.s@yahoo.co.in', preferredMethod: 'CARD' },
+    { customerId: 'CUST-BACHCHAN-029', name: 'Amitabh Bachchan', email: 'bigb@gmail.com', preferredMethod: 'UPI' },
+    { customerId: 'CUST-KHAN-030', name: 'Shahrukh Khan', email: 'srk@rediffmail.com', preferredMethod: 'CARD' }
+  ].map(c => ({
+    ...c,
+    totalPayments: 0,
+    successfulPayments: 0,
+    recoveredPayments: 0,
+    preferredMethod: c.preferredMethod as PaymentMethodEnum
+  }));
 
   const insertedCustomers = await Customer.insertMany(customersData);
   console.log(`✅ ${insertedCustomers.length} customers inserted.`);
@@ -132,7 +78,16 @@ export const seedDatabaseData = async (clearExisting = true): Promise<{
     custMap[c.customerId] = c._id as mongoose.Types.ObjectId;
   });
 
-  console.log('💳 Seeding Payments...');
+  console.log('💳 Seeding 84 Payments with deterministic relative dates...');
+
+  const now = new Date();
+  const getOffsetDate = (daysAgo: number, hoursAgo = 0): Date => {
+    const d = new Date(now.getTime());
+    d.setDate(d.getDate() - daysAgo);
+    d.setHours(d.getHours() - hoursAgo);
+    return d;
+  };
+
   interface SeedPaymentInput {
     paymentId: string;
     customerId: mongoose.Types.ObjectId;
@@ -143,140 +98,183 @@ export const seedDatabaseData = async (clearExisting = true): Promise<{
     gateway: string;
     failureReason?: string;
     retryCount: number;
+    createdAt: Date;
   }
 
-  const paymentsData: SeedPaymentInput[] = [
-    // Hero Payment RV-28491
-    {
-      paymentId: 'RV-28491',
-      customerId: custMap['CUST-AISHA-001'],
-      amount: 4999,
-      currency: 'INR',
-      method: 'CARD',
-      status: 'FAILED',
-      gateway: 'Razorpay',
-      failureReason: 'Temporary bank server timeout',
-      retryCount: 1
-    },
-    {
-      paymentId: 'RV-28487',
-      customerId: custMap['CUST-MEHTA-002'],
-      amount: 8999,
-      currency: 'INR',
-      method: 'CARD',
-      status: 'FAILED',
-      gateway: 'PhonePe',
-      failureReason: 'issuer unavailable',
-      retryCount: 2
-    },
-    {
-      paymentId: 'RV-28476',
-      customerId: custMap['CUST-JOSEPH-003'],
-      amount: 24500,
-      currency: 'INR',
-      method: 'NETBANKING',
-      status: 'FAILED',
-      gateway: 'PayU',
-      failureReason: 'authentication failure',
-      retryCount: 3
-    },
-    {
-      paymentId: 'RV-28463',
-      customerId: custMap['CUST-SHAH-004'],
-      amount: 899,
-      currency: 'INR',
-      method: 'UPI',
-      status: 'FAILED',
-      gateway: 'Cashfree',
-      failureReason: 'UPI technical failure',
-      retryCount: 1
-    },
-    {
-      paymentId: 'RV-28438',
-      customerId: custMap['CUST-SHARMA-005'],
-      amount: 32000,
-      currency: 'INR',
-      method: 'CARD',
-      status: 'RECOVERED',
-      gateway: 'Razorpay',
-      failureReason: 'network timeout',
-      retryCount: 1
-    },
-    {
-      paymentId: 'RV-28450',
-      customerId: custMap['CUST-RAO-006'],
-      amount: 14200,
-      currency: 'INR',
-      method: 'CARD',
-      status: 'PENDING',
-      gateway: 'Razorpay',
-      failureReason: 'insufficient balance',
-      retryCount: 2
-    },
-    {
-      paymentId: 'RV-28421',
-      customerId: custMap['CUST-NAIR-007'],
-      amount: 6499,
-      currency: 'INR',
-      method: 'UPI',
-      status: 'FAILED',
-      gateway: 'PhonePe',
-      failureReason: 'UPI technical failure',
-      retryCount: 2
-    },
-    {
-      paymentId: 'RV-28410',
-      customerId: custMap['CUST-PATEL-008'],
-      amount: 11800,
-      currency: 'INR',
-      method: 'NETBANKING',
-      status: 'FAILED',
-      gateway: 'PayU',
-      failureReason: 'authentication failure',
-      retryCount: 4
-    },
-    {
-      paymentId: 'RV-28399',
-      customerId: custMap['CUST-VERMA-009'],
-      amount: 18500,
-      currency: 'INR',
-      method: 'UPI',
-      status: 'RECOVERED',
-      gateway: 'Razorpay',
-      failureReason: 'temporary bank timeout',
-      retryCount: 1
-    },
-    {
-      paymentId: 'RV-28385',
-      customerId: custMap['CUST-REDDY-010'],
-      amount: 5499,
-      currency: 'INR',
-      method: 'CARD',
-      status: 'FAILED',
-      gateway: 'PhonePe',
-      failureReason: 'network timeout',
-      retryCount: 3
-    }
-  ];
+  const paymentsData: SeedPaymentInput[] = [];
+  const customerKeys = Object.keys(custMap);
 
-  // Seed 20 historical/successful payments
-  for (let i = 1; i <= 20; i++) {
-    const keys = Object.keys(custMap);
-    const chosenCustId = keys[i % keys.length];
+  // Helper to add deterministic payments
+  const addPayment = (
+    paymentId: string,
+    custKey: string,
+    amount: number,
+    method: PaymentMethodEnum,
+    status: PaymentStatusEnum,
+    gateway: string,
+    failureReason: string | undefined,
+    retryCount: number,
+    daysAgo: number,
+    hoursAgo = 0
+  ) => {
     paymentsData.push({
-      paymentId: `TXN-DEMO-${1000 + i}`,
-      customerId: custMap[chosenCustId],
-      amount: Math.floor(Math.random() * 8000) + 1000,
+      paymentId,
+      customerId: custMap[custKey],
+      amount,
       currency: 'INR',
-      method: (i % 2 === 0 ? 'UPI' : 'CARD') as PaymentMethodEnum,
-      status: 'SUCCESS' as PaymentStatusEnum,
-      gateway: i % 3 === 0 ? 'Razorpay' : i % 3 === 1 ? 'PhonePe' : 'PayU',
-      retryCount: 0
+      method,
+      status,
+      gateway,
+      failureReason,
+      retryCount,
+      createdAt: getOffsetDate(daysAgo, hoursAgo)
     });
+  };
+
+  // ==========================================
+  // GROUP 1: LAST 7 DAYS (20 Payments)
+  // ==========================================
+  // Hero Payment RV-28491 (Today - 0 days ago)
+  addPayment('RV-28491', 'CUST-AISHA-001', 4999, 'CARD', 'FAILED', 'Razorpay', 'Temporary bank/server timeout', 1, 0, 2);
+  addPayment('RV-28487', 'CUST-MEHTA-002', 8999, 'CARD', 'FAILED', 'PhonePe', 'Bank declined', 2, 0, 4);
+  addPayment('RV-28476', 'CUST-JOSEPH-003', 24500, 'NETBANKING', 'FAILED', 'PayU', 'Authentication failure', 3, 0, 6);
+  addPayment('RV-28463', 'CUST-SHAH-004', 899, 'UPI', 'FAILED', 'Cashfree', 'Gateway timeout', 1, 0, 8);
+  addPayment('TXN-7001', 'CUST-NAIR-007', 1499, 'UPI', 'SUCCESS', 'Razorpay', undefined, 0, 1, 2);
+  addPayment('RV-28450', 'CUST-RAO-006', 14200, 'CARD', 'PENDING', 'Razorpay', 'Insufficient funds', 2, 1, 6);
+  addPayment('RV-28438', 'CUST-SHARMA-005', 32000, 'CARD', 'RECOVERED', 'Razorpay', 'Network error', 1, 1, 10);
+  addPayment('TXN-7002', 'CUST-PATEL-008', 3499, 'NETBANKING', 'SUCCESS', 'PayU', undefined, 0, 2, 3);
+  addPayment('RV-28421', 'CUST-NAIR-007', 6499, 'UPI', 'FAILED', 'PhonePe', 'Gateway timeout', 2, 2, 8);
+  addPayment('TXN-7003', 'CUST-VERMA-009', 5999, 'UPI', 'SUCCESS', 'PhonePe', undefined, 0, 3, 1);
+  addPayment('TXN-7004', 'CUST-REDDY-010', 2200, 'CARD', 'SUCCESS', 'Razorpay', undefined, 0, 3, 5);
+  addPayment('RV-28410', 'CUST-PATEL-008', 11800, 'NETBANKING', 'FAILED', 'PayU', 'Authentication failure', 4, 4, 2);
+  addPayment('TXN-7005', 'CUST-GUPTA-011', 7850, 'UPI', 'SUCCESS', 'Razorpay', undefined, 0, 4, 9);
+  addPayment('RV-28399', 'CUST-VERMA-009', 18500, 'UPI', 'RECOVERED', 'Razorpay', 'Temporary bank/server timeout', 1, 5, 4);
+  addPayment('TXN-7006', 'CUST-JOSHI-012', 1299, 'CARD', 'SUCCESS', 'Cashfree', undefined, 0, 5, 8);
+  addPayment('RV-28385', 'CUST-REDDY-010', 5499, 'CARD', 'FAILED', 'PhonePe', 'Network error', 3, 6, 2);
+  addPayment('TXN-7007', 'CUST-IYER-013', 9999, 'NETBANKING', 'SUCCESS', 'PayU', undefined, 0, 6, 7);
+  addPayment('TXN-7008', 'CUST-KAPOOR-014', 4500, 'WALLET', 'SUCCESS', 'Razorpay', undefined, 0, 6, 11);
+  addPayment('TXN-7009', 'CUST-SEN-015', 2800, 'CARD', 'FAILED', 'Razorpay', 'Limit exceeded', 1, 6, 15);
+  addPayment('TXN-7010', 'CUST-DUTTA-016', 6200, 'UPI', 'SUCCESS', 'PhonePe', undefined, 0, 6, 18);
+
+  // ==========================================
+  // GROUP 2: LAST 8–30 DAYS (28 Payments)
+  // Month-to-date (8-18 days ago): 20 Payments
+  // Late July (20-29 days ago): 8 Payments
+  // ==========================================
+  const failureReasonsList = [
+    'Temporary bank/server timeout',
+    'Insufficient funds',
+    'Authentication failure',
+    'Bank declined',
+    'Gateway timeout',
+    'Network error',
+    'Limit exceeded'
+  ];
+  const gatewaysList = ['Razorpay', 'PhonePe', 'PayU', 'Cashfree'];
+  const methodsList: PaymentMethodEnum[] = ['UPI', 'CARD', 'NETBANKING', 'WALLET'];
+
+  // MTD portion (8 to 18 days ago) -> 20 payments
+  for (let i = 1; i <= 20; i++) {
+    const custKey = customerKeys[(i + 10) % customerKeys.length];
+    const daysAgo = 8 + (i % 11); // 8 to 18 days ago
+    const isFailed = i % 3 === 0;
+    const isRecovered = i % 7 === 0;
+    const status: PaymentStatusEnum = isRecovered ? 'RECOVERED' : isFailed ? 'FAILED' : 'SUCCESS';
+    const amount = 1500 + (i * 450);
+    const method = methodsList[i % methodsList.length];
+    const gateway = gatewaysList[i % gatewaysList.length];
+    const failureReason = isFailed || isRecovered ? failureReasonsList[i % failureReasonsList.length] : undefined;
+
+    addPayment(
+      `TXN-MTD-${1000 + i}`,
+      custKey,
+      amount,
+      method,
+      status,
+      gateway,
+      failureReason,
+      status === 'SUCCESS' ? 0 : (i % 3) + 1,
+      daysAgo,
+      i % 12
+    );
+  }
+
+  // Late July portion (20 to 29 days ago) -> 8 payments
+  for (let i = 1; i <= 8; i++) {
+    const custKey = customerKeys[(i + 5) % customerKeys.length];
+    const daysAgo = 20 + i; // 21 to 28 days ago
+    const isFailed = i % 2 === 0;
+    const status: PaymentStatusEnum = isFailed ? 'FAILED' : 'SUCCESS';
+    const amount = 2200 + (i * 600);
+    const method = methodsList[(i + 1) % methodsList.length];
+    const gateway = gatewaysList[(i + 2) % gatewaysList.length];
+    const failureReason = isFailed ? failureReasonsList[i % failureReasonsList.length] : undefined;
+
+    addPayment(
+      `TXN-JUL-${1000 + i}`,
+      custKey,
+      amount,
+      method,
+      status,
+      gateway,
+      failureReason,
+      isFailed ? 2 : 0,
+      daysAgo,
+      i % 8
+    );
+  }
+
+  // ==========================================
+  // GROUP 3: OLDER THAN 30 DAYS (36 Payments)
+  // (35 to 120 days ago)
+  // ==========================================
+  for (let i = 1; i <= 36; i++) {
+    const custKey = customerKeys[i % customerKeys.length];
+    const daysAgo = 35 + (i * 2); // 37 to 107 days ago
+    const isFailed = i % 4 === 0;
+    const isRecovered = i % 9 === 0;
+    const status: PaymentStatusEnum = isRecovered ? 'RECOVERED' : isFailed ? 'FAILED' : 'SUCCESS';
+    const amount = 1200 + (i * 320);
+    const method = methodsList[i % methodsList.length];
+    const gateway = gatewaysList[i % gatewaysList.length];
+    const failureReason = isFailed || isRecovered ? failureReasonsList[i % failureReasonsList.length] : undefined;
+
+    addPayment(
+      `TXN-HIST-${1000 + i}`,
+      custKey,
+      amount,
+      method,
+      status,
+      gateway,
+      failureReason,
+      status === 'SUCCESS' ? 0 : (i % 2) + 1,
+      daysAgo,
+      i % 14
+    );
   }
 
   const insertedPayments = await Payment.insertMany(paymentsData);
   console.log(`✅ ${insertedPayments.length} payments inserted.`);
+
+  // Recalculate and update Customer statistics based on actual inserted payments
+  const customerStatsMap: Record<string, { total: number; success: number; recovered: number }> = {};
+  insertedPayments.forEach((p: any) => {
+    const custIdStr = p.customerId.toString();
+    if (!customerStatsMap[custIdStr]) {
+      customerStatsMap[custIdStr] = { total: 0, success: 0, recovered: 0 };
+    }
+    customerStatsMap[custIdStr].total += 1;
+    if (p.status === 'SUCCESS') customerStatsMap[custIdStr].success += 1;
+    if (p.status === 'RECOVERED' || p.recovered) customerStatsMap[custIdStr].recovered += 1;
+  });
+
+  for (const cust of insertedCustomers) {
+    const stats = customerStatsMap[(cust._id as any).toString()] || { total: 0, success: 0, recovered: 0 };
+    cust.totalPayments = stats.total;
+    cust.successfulPayments = stats.success;
+    cust.recoveredPayments = stats.recovered;
+    await cust.save();
+  }
 
   const payMap: Record<string, mongoose.Types.ObjectId> = {};
   insertedPayments.forEach((p: any) => {
@@ -315,7 +313,7 @@ export const seedDatabaseData = async (clearExisting = true): Promise<{
     recoveredAmount: 0
   });
 
-  // Decision 2
+  // Decision 2 (RV-28487)
   const decision2 = await RecoveryDecision.create({
     decisionId: 'DEC-RV-28487',
     paymentId: payMap['RV-28487'],
@@ -344,18 +342,18 @@ export const seedDatabaseData = async (clearExisting = true): Promise<{
     executedAt: new Date()
   });
 
-  // Decision 3
+  // Decision 3 (RV-28476)
   const decision3 = await RecoveryDecision.create({
     decisionId: 'DEC-RV-28476',
     paymentId: payMap['RV-28476'],
-    probability: 0.42,
-    confidence: 'MEDIUM' as ConfidenceLevelEnum,
-    recommendation: 'Escalate to merchant human review',
+    probability: 0.22,
+    confidence: 'LOW' as ConfidenceLevelEnum,
+    recommendation: 'Manual Review / Escalation Required',
     recommendedMethod: 'NETBANKING' as PaymentMethodEnum,
     delayMinutes: 0,
     reasoning: [
-      'High transaction value exceeding automated mandate retry cap',
-      'Multiple previous mandate failures detected'
+      'High transaction value (₹24,500)',
+      'Multiple previous authentication failures detected'
     ],
     modelVersion: 'Revive Recovery Engine v1',
     policyStatus: 'REJECTED' as PolicyStatusEnum,
@@ -372,7 +370,7 @@ export const seedDatabaseData = async (clearExisting = true): Promise<{
     recoveredAmount: 0
   });
 
-  // Decision 4
+  // Decision 4 (RV-28438)
   const decision4 = await RecoveryDecision.create({
     decisionId: 'DEC-RV-28438',
     paymentId: payMap['RV-28438'],
@@ -400,7 +398,7 @@ export const seedDatabaseData = async (clearExisting = true): Promise<{
     executedAt: new Date()
   });
 
-  // Decision 5
+  // Decision 5 (RV-28421)
   const decision5 = await RecoveryDecision.create({
     decisionId: 'DEC-RV-28421',
     paymentId: payMap['RV-28421'],

@@ -5,6 +5,11 @@ export interface MetricItemData {
   id: string;
   title: string;
   value: string;
+  numericValue?: number;
+  prefix?: string;
+  suffix?: string;
+  decimals?: number;
+  formatIndian?: boolean;
   trend?: string;
   trendPositive?: boolean;
   subtitle?: string;
@@ -13,6 +18,20 @@ export interface MetricItemData {
 interface MetricStripProps {
   metrics: MetricItemData[];
 }
+
+// Static display — no count-up animation
+const MetricValue: React.FC<{ item: MetricItemData }> = ({ item }) => {
+  let display = item.value;
+  if (item.numericValue !== undefined) {
+    const num = (item.decimals && item.decimals > 0)
+      ? item.numericValue.toFixed(item.decimals)
+      : (item.formatIndian
+          ? item.numericValue.toLocaleString('en-IN')
+          : Math.round(item.numericValue).toString());
+    display = `${item.prefix || ''}${num}${item.suffix || ''}`;
+  }
+  return <span className="metric-value num-tabular">{display}</span>;
+};
 
 export const MetricStrip: React.FC<MetricStripProps> = ({ metrics }) => {
   return (
@@ -30,7 +49,7 @@ export const MetricStrip: React.FC<MetricStripProps> = ({ metrics }) => {
               )}
             </div>
             <div className="metric-value-row">
-              <span className="metric-value num-tabular">{item.value}</span>
+              <MetricValue item={item} />
             </div>
             {item.subtitle && <span className="metric-subtitle">{item.subtitle}</span>}
           </div>
@@ -39,3 +58,4 @@ export const MetricStrip: React.FC<MetricStripProps> = ({ metrics }) => {
     </div>
   );
 };
+

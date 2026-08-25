@@ -135,6 +135,9 @@ export const RecoveryChart: React.FC<RecoveryChartProps> = ({ data }) => {
                 strokeWidth={2}
                 fillOpacity={1}
                 fill="url(#colorRecovered)"
+                isAnimationActive={true}
+                animationDuration={1100}
+                animationEasing="ease-out"
               />
             )}
 
@@ -147,6 +150,9 @@ export const RecoveryChart: React.FC<RecoveryChartProps> = ({ data }) => {
                 strokeWidth={2}
                 fillOpacity={1}
                 fill="url(#colorAtRisk)"
+                isAnimationActive={true}
+                animationDuration={1100}
+                animationEasing="ease-out"
               />
             )}
           </AreaChart>
