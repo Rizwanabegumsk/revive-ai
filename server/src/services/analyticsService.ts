@@ -313,7 +313,7 @@ export class AnalyticsService {
 
     const items: ITopRecoverableItem[] = [];
 
-    payments.forEach(p => {
+    payments.forEach((p: any) => {
       const dec = decMap[p._id.toString()];
       const customer = (p.customerId && typeof p.customerId === 'object') ? (p.customerId as ICustomer) : null;
 

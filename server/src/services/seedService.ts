@@ -128,7 +128,7 @@ export const seedDatabaseData = async (clearExisting = true): Promise<{
   console.log(`✅ ${insertedCustomers.length} customers inserted.`);
 
   const custMap: Record<string, mongoose.Types.ObjectId> = {};
-  insertedCustomers.forEach(c => {
+  insertedCustomers.forEach((c: any) => {
     custMap[c.customerId] = c._id as mongoose.Types.ObjectId;
   });
 
@@ -279,7 +279,7 @@ export const seedDatabaseData = async (clearExisting = true): Promise<{
   console.log(`✅ ${insertedPayments.length} payments inserted.`);
 
   const payMap: Record<string, mongoose.Types.ObjectId> = {};
-  insertedPayments.forEach(p => {
+  insertedPayments.forEach((p: any) => {
     payMap[p.paymentId] = p._id as mongoose.Types.ObjectId;
   });
 

@@ -145,7 +145,7 @@ export class RecoveryExecutionService {
 
       // Update Customer Statistics
       if (payment.customerId) {
-        const custId = typeof payment.customerId === 'object' ? (payment.customerId as ICustomer)._id : payment.customerId;
+        const custId = typeof payment.customerId === 'object' ? (payment.customerId as any)._id : payment.customerId;
         await Customer.findByIdAndUpdate(custId, {
           $inc: { recoveredPayments: 1 }
         });

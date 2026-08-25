@@ -137,7 +137,7 @@ export class ExperimentService {
     let challengerSuccesses = 0;
     let challengerRecovered = 0;
 
-    allPayments.forEach(p => {
+    allPayments.forEach((p: any) => {
       const variant = this.assignVariant(p.paymentId);
 
       if (variant === 'CONTROL') {
@@ -158,8 +158,8 @@ export class ExperimentService {
     });
 
     // Also account for simulation outcomes
-    successfulOutcomes.forEach(o => {
-      const p = allPayments.find(pay => pay._id.toString() === o.paymentId.toString());
+    successfulOutcomes.forEach((o: any) => {
+      const p = allPayments.find((pay: any) => pay._id.toString() === o.paymentId.toString());
       if (p) {
         const variant = this.assignVariant(p.paymentId);
         const amount = o.amountRecovered || o.recoveredAmount || 0;
