@@ -303,6 +303,13 @@ export const TransactionDetailPage: React.FC = () => {
   const formattedAmount = `₹${payment.amount.toLocaleString('en-IN')}`;
 
   const currentPolicyStatus = policyDecision?.status || (decision.policyStatus === 'APPROVED' ? 'APPROVED' : decision.policyStatus === 'MANUAL_REVIEW' ? 'MANUAL_REVIEW' : 'BLOCKED');
+
+  // The API stores probability as either a decimal (0–1) or a percentage (0–100).
+  // Normalize it once for display. No animation or fake values are used.
+  const probabilityPercent = decision.probability <= 1
+    ? Math.round(decision.probability * 100)
+    : Math.round(decision.probability);
+
   const policyChecksList = policyDecision?.checks || (decision.policyChecks?.map(c => ({
     name: c.rule || c.name || 'Rule',
     passed: c.passed,
@@ -479,7 +486,7 @@ export const TransactionDetailPage: React.FC = () => {
                   Recovery probability
                 </span>
                 <div className="metric-value num-tabular" style={{ fontSize: '3rem', fontWeight: 800, color: 'var(--color-primary)', lineHeight: 1 }}>
-                  {animatedProbability}
+                  {probabilityPercent}%
                 </div>
                 <span className="text-xs text-muted" style={{ marginTop: '0.375rem', display: 'block', fontWeight: 600 }}>
                   {probabilityPercent >= 75 ? 'Strong candidate for recovery' : probabilityPercent >= 50 ? 'Moderate recovery opportunity' : 'Low recovery probability'}
@@ -1043,7 +1050,7 @@ export const TransactionDetailPage: React.FC = () => {
             <div className="timeline-vertical">
               {events && events.length > 0 ? (
                 events.map((evt: any, idx: number) => (
-                  <div key={evt._id || idx} className="timeline-item timeline-item-animated" style={{ animationDelay: `${idx * 120}ms` }}>
+                  <div key={evt._id || idx} className="timeline-item" style={{ animationDelay: `${idx * 120}ms` }}>
                     <span className="timeline-time">
                       {new Date(evt.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
                     </span>
