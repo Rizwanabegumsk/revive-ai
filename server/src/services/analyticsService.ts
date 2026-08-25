@@ -74,7 +74,7 @@ export class AnalyticsService {
     let failedPaymentCount = 0;
     let recoveredPaymentCount = 0;
 
-    allPayments.forEach(p => {
+    allPayments.forEach((p: any) => {
       if (p.status === 'RECOVERED' || p.recovered) {
         recoveredPaymentCount += 1;
       } else if (p.status === 'FAILED') {
@@ -84,16 +84,16 @@ export class AnalyticsService {
     });
 
     let totalRevenueRecovered = 0;
-    successfulOutcomes.forEach(o => {
+    successfulOutcomes.forEach((o: any) => {
       totalRevenueRecovered += o.amountRecovered || o.recoveredAmount || 0;
     });
 
     // Add any recovered payments in Payment model not captured in outcomes
     const recoveredPaymentsNotInOutcomes = allPayments.filter(
-      p => (p.status === 'RECOVERED' || p.recovered) &&
-      !successfulOutcomes.some(o => o.paymentId.toString() === p._id.toString())
+      (p: any) => (p.status === 'RECOVERED' || p.recovered) &&
+      !successfulOutcomes.some((o: any) => o.paymentId.toString() === p._id.toString())
     );
-    recoveredPaymentsNotInOutcomes.forEach(p => {
+    recoveredPaymentsNotInOutcomes.forEach((p: any) => {
       totalRevenueRecovered += p.recoveredAmount || p.amount;
     });
 
@@ -103,7 +103,7 @@ export class AnalyticsService {
       : 0;
 
     let totalProbability = 0;
-    allDecisions.forEach(d => {
+    allDecisions.forEach((d: any) => {
       totalProbability += d.probability;
     });
     const averageRecoveryProbability = allDecisions.length > 0
@@ -138,7 +138,7 @@ export class AnalyticsService {
 
     const trendMap: Record<string, { failedAmount: number; recoveredAmount: number; count: number }> = {};
 
-    payments.forEach(p => {
+    payments.forEach((p: any) => {
       const dateKey = new Date(p.createdAt || Date.now()).toISOString().split('T')[0];
       if (!trendMap[dateKey]) {
         trendMap[dateKey] = { failedAmount: 0, recoveredAmount: 0, count: 0 };
@@ -149,7 +149,7 @@ export class AnalyticsService {
       }
     });
 
-    outcomes.forEach(o => {
+    outcomes.forEach((o: any) => {
       const dateKey = new Date(o.executedAt || o.createdAt || Date.now()).toISOString().split('T')[0];
       if (!trendMap[dateKey]) {
         trendMap[dateKey] = { failedAmount: 0, recoveredAmount: 0, count: 0 };
@@ -181,16 +181,16 @@ export class AnalyticsService {
     const outcomes = await RecoveryOutcome.find({ recovered: true });
 
     return methods.map(m => {
-      const methodPayments = payments.filter(p => p.method === m);
+      const methodPayments = payments.filter((p: any) => p.method === m);
       const attempts = methodPayments.length;
-      const methodOutcomes = outcomes.filter(o => o.method === m);
+      const methodOutcomes = outcomes.filter((o: any) => o.method === m);
 
       let recoveredAmount = 0;
-      methodOutcomes.forEach(o => {
+      methodOutcomes.forEach((o: any) => {
         recoveredAmount += o.amountRecovered || o.recoveredAmount || 0;
       });
 
-      const successfulRecoveries = methodPayments.filter(p => p.status === 'RECOVERED' || p.recovered).length;
+      const successfulRecoveries = methodPayments.filter((p: any) => p.status === 'RECOVERED' || p.recovered).length;
       const successRate = attempts > 0 ? Number(((successfulRecoveries / attempts) * 100).toFixed(1)) : 0;
 
       return {
@@ -212,13 +212,13 @@ export class AnalyticsService {
     const outcomes = await RecoveryOutcome.find({ recovered: true });
 
     const decMap: Record<string, any> = {};
-    decisions.forEach(d => {
+    decisions.forEach((d: any) => {
       decMap[d.paymentId.toString()] = d;
     });
 
     const reasonMap: Record<string, { count: number; risk: number; recoverable: number; recovered: number }> = {};
 
-    payments.forEach(p => {
+    payments.forEach((p: any) => {
       const reason = p.failureReason || 'Other Error';
       if (!reasonMap[reason]) {
         reasonMap[reason] = { count: 0, risk: 0, recoverable: 0, recovered: 0 };
@@ -237,8 +237,8 @@ export class AnalyticsService {
     });
 
     // Incorporate outcome amounts
-    outcomes.forEach(o => {
-      const p = payments.find(pay => pay._id.toString() === o.paymentId.toString());
+    outcomes.forEach((o: any) => {
+      const p = payments.find((pay: any) => pay._id.toString() === o.paymentId.toString());
       if (p) {
         const reason = p.failureReason || 'Other Error';
         if (reasonMap[reason] && reasonMap[reason].recovered === 0) {
@@ -271,17 +271,17 @@ export class AnalyticsService {
     const outcomes = await RecoveryOutcome.find({ recovered: true });
 
     return gateways.map(g => {
-      const gatewayPayments = payments.filter(p => p.gateway.toLowerCase() === g.toLowerCase());
-      const failedPayments = gatewayPayments.filter(p => p.status === 'FAILED' && !p.recovered).length;
-      const recoveredPayments = gatewayPayments.filter(p => p.status === 'RECOVERED' || p.recovered).length;
+      const gatewayPayments = payments.filter((p: any) => p.gateway.toLowerCase() === g.toLowerCase());
+      const failedPayments = gatewayPayments.filter((p: any) => p.status === 'FAILED' && !p.recovered).length;
+      const recoveredPayments = gatewayPayments.filter((p: any) => p.status === 'RECOVERED' || p.recovered).length;
 
       let amountAtRisk = 0;
-      gatewayPayments.filter(p => p.status === 'FAILED' && !p.recovered).forEach(p => {
+      gatewayPayments.filter((p: any) => p.status === 'FAILED' && !p.recovered).forEach((p: any) => {
         amountAtRisk += p.amount;
       });
 
       let recoveredAmount = 0;
-      gatewayPayments.filter(p => p.status === 'RECOVERED' || p.recovered).forEach(p => {
+      gatewayPayments.filter((p: any) => p.status === 'RECOVERED' || p.recovered).forEach((p: any) => {
         recoveredAmount += p.recoveredAmount || p.amount;
       });
 
@@ -307,7 +307,7 @@ export class AnalyticsService {
     const decisions = await RecoveryDecision.find();
 
     const decMap: Record<string, any> = {};
-    decisions.forEach(d => {
+    decisions.forEach((d: any) => {
       decMap[d.paymentId.toString()] = d;
     });
 

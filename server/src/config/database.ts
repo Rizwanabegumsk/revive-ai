@@ -9,8 +9,9 @@ export const connectDB = async (): Promise<string> => {
 
   if (isProduction) {
     if (!mongoUri || mongoUri.trim().length === 0) {
-      console.error('❌ FATAL: MONGODB_URI environment variable is required in production mode (NODE_ENV=production).');
-      process.exit(1);
+      const msg = 'FATAL: MONGODB_URI environment variable is required in production mode (NODE_ENV=production).';
+      console.error(`❌ ${msg}`);
+      throw new Error(msg);
     }
 
     try {
@@ -19,7 +20,7 @@ export const connectDB = async (): Promise<string> => {
       return mongoUri;
     } catch (err) {
       console.error('❌ FATAL: Production MongoDB connection failed:', err instanceof Error ? err.message : err);
-      process.exit(1);
+      throw err;
     }
   }
 
@@ -47,7 +48,7 @@ export const connectDB = async (): Promise<string> => {
     } catch (memError) {
       console.error('❌ FATAL: Could not connect to MongoDB or start In-Memory MongoDB instance.');
       console.error(memError instanceof Error ? memError.message : memError);
-      process.exit(1);
+      throw memError;
     }
   }
 };
